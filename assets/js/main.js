@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import { GLTFLoader } from '../assets/js/lib/loaders/GLTFLoader.js';
 
 // Basic Three.js setup
@@ -9,33 +10,23 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // Load the model
-const loader = new THREE.GLTFLoader();
+const loader = new GLTFLoader();
 let model;
-loader.load('Jester.gltf', (gltf) => {
-    model = gltf.scene;
-    model.position.set(0,0,0);
+loader.load('models/Jester.gltf', (gltf) => {
+    //model = gltf.scene;
+    //model.position.set(0,0,0);
     scene.add(model);
 });
 
 // Camera position
 camera.position.z = 5;
 
-// Floating effect variables
-let floatDirection = 1;
-let floatSpeed = 0.005;
 
-/*
-// Mouse move event to orient the model
-document.addEventListener('mousemove', (event) => {
-    const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    const mouseY = - (event.clientY / window.innerHeight) * 2 + 1;
-    
-    if (model) {
-        model.rotation.y = mouseX;
-        model.rotation.x = mouseY;
-    }
-});
-*/
+function render(){
+    renderer.render(scene,camera);
+}
+
+render();
 
 // Resize event
 window.addEventListener('resize', () => {
@@ -44,19 +35,5 @@ window.addEventListener('resize', () => {
     camera.aspect = newWidth / newHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(newWidth, newHeight);
+    render();
 });
-
-// Animation
-function animate() {
-    requestAnimationFrame(animate);
-/*
-    // Floating effect
-    model.position.y += floatDirection * floatSpeed;
-    if (model.position.y > 0.1 || model.position.y < -0.1) {
-        floatDirection *= -1;
-    }
-*/
-    renderer.render(scene, camera);
-}
-
-animate();
