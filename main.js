@@ -8,7 +8,7 @@ document.body.appendChild(renderer.domElement);
 // Load the model
 const loader = new THREE.GLTFLoader();
 let model;
-loader.load('jester.gltf', (gltf) => {
+loader.load('Jester.gltf', (gltf) => {
     model = gltf.scene;
     scene.add(model);
 });
