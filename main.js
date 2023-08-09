@@ -10,6 +10,7 @@ const loader = new THREE.GLTFLoader();
 let model;
 loader.load('Jester.gltf', (gltf) => {
     model = gltf.scene;
+    model.position.set(0,0,0);
     scene.add(model);
 });
 
@@ -20,6 +21,7 @@ camera.position.z = 5;
 let floatDirection = 1;
 let floatSpeed = 0.005;
 
+/*
 // Mouse move event to orient the model
 document.addEventListener('mousemove', (event) => {
     const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
@@ -30,6 +32,7 @@ document.addEventListener('mousemove', (event) => {
         model.rotation.x = mouseY;
     }
 });
+*/
 
 // Resize event
 window.addEventListener('resize', () => {
@@ -43,13 +46,13 @@ window.addEventListener('resize', () => {
 // Animation
 function animate() {
     requestAnimationFrame(animate);
-
+/*
     // Floating effect
     model.position.y += floatDirection * floatSpeed;
     if (model.position.y > 0.1 || model.position.y < -0.1) {
         floatDirection *= -1;
     }
-
+*/
     renderer.render(scene, camera);
 }
 
