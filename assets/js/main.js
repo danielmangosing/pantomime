@@ -1,16 +1,16 @@
-import * as THREE from './assets/js/three.js';
-import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
-import { GLTFLoader } from './assets/js/lib/loaders/GLTFLoader.js';
+//import * as THREE from './assets/js/three.js';
+import { PerspectiveCamera, Scene, WebGLRenderer } from 'assets/js/three.js';
+import { GLTFLoader } from 'assets/js/lib/loaders/GLTFLoader.js';
 
 const threejsCanvas = document.querySelector('#threejs-canvas');
 let width = threejsCanvas.offsetWidth;
 let height = threejsCanvas.offsetHeight;
 
 // Basic Three.js setup
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, width / height, 1, 1000);
+const scene = new Scene();
+const camera = new PerspectiveCamera(75, width / height, 1, 1000);
 
-const renderer = new THREE.WebGLRenderer({ 
+const renderer = new WebGLRenderer({ 
     antialias: true, 
 });
 
@@ -22,8 +22,8 @@ threejsCanvas.appendChild(renderer.domElement);
 const loader = new GLTFLoader();
 let model;
 loader.load('models/Jester.gltf', (gltf) => {
-    //model = gltf.scene;
-    //model.position.set(0,0,0);
+    model = gltf.scene;
+    model.position.set(0,0,0);
     scene.add(model);
 });
 
