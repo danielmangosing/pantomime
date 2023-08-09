@@ -10,20 +10,28 @@
 
     <meta property="og:image" content="assets/thumbnail.jpg" />
     <link rel="stylesheet" href="assets/css/styles.css" />
-    <link rel="icon" href="assets/thumbnail.jpg" type="image/jpg"/>
+  <!--  <link rel="icon" href="assets/thumbnail.jpg" type="image/jpg"/> -->
     
     
 </head>
 <body>
+
+    
+
+    <canvas id="c"></canvas>
+    <div id="textLayer">{Pantomime}</div>
+
+
+    <div id="threejs-canvas"></div>
     <!-- Include the Three.js library and GLTFLoader -->
-    <script src="assets/js/lib/Three.js"></script>
-    <script src="assets/js/lib/loaders/GLTFLoader.js"></script>
+    <script src="assets/js/three.js"></script>
+    <!-- <script src="assets/js/lib/loaders/GLTFLoader.js"></script> -->
     <script type="module" src="assets/js/main.js"></script>
 
     <script> console.log("testing");
     </script>
+    
 
-    <canvas id="c"></canvas>
-    <div id="textLayer">{Pantomime}</div>
+
 </body>
 </html>

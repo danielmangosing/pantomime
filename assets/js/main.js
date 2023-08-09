@@ -1,13 +1,22 @@
-import * as THREE from 'three';
+import * as THREE from './assets/js/three.js';
 import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
-import { GLTFLoader } from '../assets/js/lib/loaders/GLTFLoader.js';
+import { GLTFLoader } from './assets/js/lib/loaders/GLTFLoader.js';
+
+const threejsCanvas = document.querySelector('#threejs-canvas');
+let width = threejsCanvas.offsetWidth;
+let height = threejsCanvas.offsetHeight;
 
 // Basic Three.js setup
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('c'), antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+const camera = new THREE.PerspectiveCamera(75, width / height, 1, 1000);
+
+const renderer = new THREE.WebGLRenderer({ 
+    antialias: true, 
+});
+
+renderer.setSize(width, height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+threejsCanvas.appendChild(renderer.domElement);
 
 // Load the model
 const loader = new GLTFLoader();
@@ -19,11 +28,16 @@ loader.load('models/Jester.gltf', (gltf) => {
 });
 
 // Camera position
-camera.position.z = 5;
+camera.position.z = 10;
+camera.lookAt(0,0,0);
 
 
 function render(){
+
+model.rotation.z += 0.05;
+
     renderer.render(scene,camera);
+    window.requestAnimationFrame(update);
 }
 
 render();
