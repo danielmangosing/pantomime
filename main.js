@@ -28,7 +28,11 @@ scene.add (domeLight);
 const pointLight = new THREE.PointLight(
     0xff0000, 75, 100
 );
-pointLight.position.set(-2,3,-3);
+pointLight.position.set(
+    0.75*width,
+    3,
+    -3
+    );
 scene.add(pointLight);
 
 
@@ -86,15 +90,23 @@ loader.load('public/Jester.gltf', (gltf) => {
 camera.position.z = 3;
 camera.lookAt(0,0,0);
 
+function renderOnce(){
+    if (model){
+        model.rotation.y += 0.005;
+            }
+
+ composer.render();
+            
+}
+
+
 
 function render(){
 
-    if (model){
-model.rotation.y += 0.005;
-    }
+    renderOnce();
 
     requestAnimationFrame(render);
-    composer.render();
+    
 
    
     //renderer.render(scene,camera);
@@ -110,5 +122,5 @@ window.addEventListener('resize', () => {
     camera.aspect = newWidth / newHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(newWidth, newHeight);
-    render();
+    renderOnce();
 });
