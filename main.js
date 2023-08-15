@@ -11,6 +11,25 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
 
+let modelXPos;
+let modelZPos;
+
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+if (isMobile()) {
+    // Code to run on mobile devices
+    console.log("Running on a mobile device");
+    modelXPos = 0.0;
+    modelZPos = -5.0;
+} else {
+    // Code to run on desktop or other devices
+    console.log("Running on a desktop or other device");
+    modelXPos = 1.3;
+    modelZPos = 0.5;
+}
+
 const threejsCanvas = document.querySelector('#threejs-canvas');
 let width = threejsCanvas.offsetWidth;
 let height = threejsCanvas.offsetHeight;
@@ -238,7 +257,7 @@ const loader = new GLTFLoader();
 loader.load('/Jester3.gltf', (gltf) => {
     
     model = gltf.scene;
-    model.position.set(1.3,-0.6,0.5);
+    model.position.set(modelXPos,-0.6,modelZPos);
     model.rotation.z = 0.05;
     scene.add(model);
 

@@ -27,3 +27,26 @@ canvas {
     left:0;
     top:0;
 }
+object{
+    width: 700px;
+    height: 700px;
+}
+
+/* Mobile Styles */
+@media only screen and (max-width: 768px) {
+
+    object{
+        width: 100%;
+        height: auto;
+    }
+    #textLayer {
+        /* Center the text layer horizontally */
+        left: 50%;
+        top: 85%;
+    
+    }
+    
+    #threejs-canvas {
+        /* You can add additional styles for the Three.js canvas on mobile devices if needed */
+    }
+}
