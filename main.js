@@ -10,6 +10,7 @@ import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
+
 const threejsCanvas = document.querySelector('#threejs-canvas');
 let width = threejsCanvas.offsetWidth;
 let height = threejsCanvas.offsetHeight;
@@ -234,30 +235,32 @@ scene.add(pointLight);
 let model;
 // Load the model
 const loader = new GLTFLoader();
-loader.load('/Jester.gltf', (gltf) => {
+loader.load('/Jester3.gltf', (gltf) => {
     
     model = gltf.scene;
-    model.position.set(1.25,-0.6,0);
+    model.position.set(1.3,-0.6,0.5);
     model.rotation.z = 0.05;
     scene.add(model);
 
-    model.traverse((child) => {
-        if (child.isMesh && child.material) {
-            if (Array.isArray(child.material)) {
-                child.material.forEach(mat => {
-                    mat.roughness = 0.95;  // Set the desired roughness value here
-                    //mat.aoMapIntensity = 10.0;
-                    //mat.flatShading = true;
+    model.traverse((node) =>{
+        if (node.isMesh) {
+            const material = node.material;
+            //console.log('Material Type:', material.type);
+
+
+            if (Array.isArray(material)){
+                material.forEach((mat) =>{
+                   
                 });
             } else {
-                child.material.roughness = 0.95;  // Set the desired roughness value here
-                //child.material.aoMapIntensity = 10.0;
-                //child.materil.flatShading = true;
+                //material.flatShading = true;
+                material.roughness = 0.75;
+                material.metalness = 0.5;
+                material.needsUpdate = true;
             }
         }
     });
-
-
+    
 });
 
 new RGBELoader().load('/studio_small_09_1k.hdr', function (texture){
