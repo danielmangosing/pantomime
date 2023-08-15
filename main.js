@@ -22,7 +22,7 @@ if (isMobile()) {
     // Code to run on mobile devices
     console.log("Running on a mobile device");
     modelXPos = 0.0;
-    modelZPos = -5.0;
+    modelZPos = 0.0;
 } else {
     // Code to run on desktop or other devices
     console.log("Running on a desktop or other device");
