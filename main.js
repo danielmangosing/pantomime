@@ -9,6 +9,7 @@ import { AfterimagePass } from 'three/addons/postprocessing/AfterimagePass.js';
 import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { MeshToonMaterial } from 'three';
 
 
 let modelXPos;
@@ -21,24 +22,28 @@ function isMobile() {
 if (isMobile()) {
     // Code to run on mobile devices
     console.log("Running on a mobile device");
-    modelXPos = 0.0;
+    modelXPos = 0.05;
     modelZPos = 0.0;
 } else {
     // Code to run on desktop or other devices
     console.log("Running on a desktop or other device");
-    modelXPos = 1.3;
-    modelZPos = 0.5;
+    modelXPos = 0;
+    modelZPos = 0.0;
 }
 
 const threejsCanvas = document.querySelector('#threejs-canvas');
 let width = threejsCanvas.offsetWidth;
 let height = threejsCanvas.offsetHeight;
+let fps = 24;
+let frameCount = 0;
+const frameLimit = Math.round(60 / fps);
 let composer;
 
 
 // Basic Three.js setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(38, width / height, 1, 1000);
+let toonMode = false;
 
 scene.background = new THREE.Color('white' );
 
@@ -198,11 +203,14 @@ const DitherShader = {
 const renderScene = new RenderPass( scene, camera );
 
 
-const renderPixelatedPass = new RenderPixelatedPass( 6, scene, camera );
+const renderPixelatedPass = new RenderPixelatedPass( 6, scene, camera,
+    {depthEdgeStrength: 1.0,
+    normalEdgeStrength: 1.0});
 
 const ditherPass = new ShaderPass( DitherShader );
 const afterImagePass = new AfterimagePass();
-afterImagePass.uniforms['damp'].value = 0.8;
+afterImagePass.uniforms['damp'].value = 0.9;
+/*
 const bokehPass = new BokehPass(scene, camera, 
     {focus: 2.25,
 	aperture: 0.02,
@@ -213,26 +221,28 @@ const bokehPass = new BokehPass(scene, camera,
 
 const bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
 	bloomPass.threshold = 0.5;
-	bloomPass.strength = 0.15;
-	bloomPass.radius = 0;
-
+	bloomPass.strength = 0.1;
+	bloomPass.radius = 1;
+*/
 const outputPass = new OutputPass();
 
 	composer = new EffectComposer( renderer );
 	composer.addPass( renderScene );
     composer.addPass( renderPixelatedPass );
-    composer.addPass( ditherPass );
-    
+    //composer.addPass( bloomPass );
     composer.addPass(afterImagePass);
-    composer.addPass(bokehPass);
-    composer.addPass( bloomPass );
+    
+    composer.addPass( ditherPass );
+    //composer.addPass(bokehPass);
+    
+    
 	composer.addPass( outputPass );
 
 
 const domeLight = new THREE.HemisphereLight(
         'white',
         'white',
-        0.5,
+        1.0,
     )
 scene.add (domeLight);
     
@@ -244,8 +254,11 @@ pointLight.position.set(
         3,
         -3
         );
-scene.add(pointLight);
+if (toonMode == true){
 
+} else{
+scene.add(pointLight);
+}
 
 
 
@@ -254,7 +267,7 @@ scene.add(pointLight);
 let model;
 // Load the model
 const loader = new GLTFLoader();
-loader.load('/Jester3.gltf', (gltf) => {
+loader.load('./Jester3.gltf', (gltf) => {
     
     model = gltf.scene;
     model.position.set(modelXPos,-0.6,modelZPos);
@@ -265,7 +278,15 @@ loader.load('/Jester3.gltf', (gltf) => {
         if (node.isMesh) {
             const material = node.material;
             //console.log('Material Type:', material.type);
-
+            if (toonMode == true){
+            if (material.type === 'MeshStandardMaterial') {
+                const newMaterial = new MeshToonMaterial();
+                newMaterial.copy(material);
+                //newMaterial.flatShading = true;
+                newMaterial.roughness - 1.0;
+                node.material = newMaterial;
+            }
+        }
 
             if (Array.isArray(material)){
                 material.forEach((mat) =>{
@@ -282,11 +303,15 @@ loader.load('/Jester3.gltf', (gltf) => {
     
 });
 
-new RGBELoader().load('/studio_small_09_1k.hdr', function (texture){
+new RGBELoader().load('./studio_small_09_1k.hdr', function (texture){
     texture.mapping = THREE.EquirectangularReflectionMapping;
 
     //scene.background = texture;
+    if(toonMode == true){
+
+    }else{
     scene.environment = texture;
+    }
 });
 
 // Camera position
@@ -306,15 +331,12 @@ function renderOnce(){
 
 function render(){
 
-    renderOnce();
-    
-
+    frameCount++;
+    if (frameCount >= frameLimit) {
+        renderOnce();
+        frameCount = 0;
+    }
     requestAnimationFrame(render);
-    
-
-   
-    //renderer.render(scene,camera);
-    
 }
 
 render();
