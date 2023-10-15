@@ -6,22 +6,98 @@
     <meta
       name="viewport"
       content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
-    <meta name="description" content="Pantomime is a boutique creative studio bla la bla" />
+    <meta name="description" content="Pantomime is the creative studio of Daniel Mangosing and Noel Stasio" />
 
-    <meta property="og:image" content="public/images/thumbnail.jpg" />
+    <meta property="og:image" content="./pantomime-icon.png" />
     
   <!--  <link rel="icon" href="assets/thumbnail.jpg" type="image/jpg"/> -->
     
     
-  <script type="module" crossorigin src="/assets/index-fcc4f67c.js"></script>
-  <link rel="stylesheet" href="/assets/index-b58faf0c.css">
+  <script type="module" crossorigin src="/assets/index-857caf74.js"></script>
+  <link rel="stylesheet" href="/assets/index-12bb7073.css">
 </head>
 <body>
+  
+
+    <div id="password-input">
+        <input type="password" id="password" oninput="checkPassword()" placeholder="ENTER PASSWORD" style="text-align: center;">
+    </div>
+    <script>
+        document.getElementById('threejs-canvas').style.display = 'block';
+        function checkPassword() {
+            var password = document.getElementById('password').value;
+            if (password == 'PANTOMIME') {
+                window.location.href = 'home.html';
+            }
+        }
+    </script>
+    
+   
 
     
 
-    <canvas id="c"></canvas>
-    <div id="textLayer"><object data="PANTOMIME.svg" width="700" height="700"> </object></div>
+    
+    <div id="textLayer">
+      <svg id="pantomime-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 185.46">
+        
+        <defs>
+
+          <filter id="softGlo" height="500%" width="500%" x="-150%" y="-150%">
+            <!-- Thicken out the original shape -->
+            <feMorphology operator="dilate" radius="20" in="SourceAlpha" result="thicken" />
+            <feMorphology operator="dilate" radius="25" in="SourceAlpha" result="thicken2" />
+        
+            <!-- Use a gaussian blur to create the soft blurriness of the glow -->
+            <feGaussianBlur in="thicken" stdDeviation="35" result="blurred" />
+            <feGaussianBlur in="thicken2" stdDeviation="15" result="blurred2" />
+        
+            <!-- Change the colour -->
+            <feFlood flood-color="rgb(255,255,255)" result="glowColor" />
+        
+            <!-- Color in the glows -->
+            <feComposite in="glowColor" in2="blurred" operator="in" result="softGlow_colored" />
+            <feComposite in="glowColor" in2="blurred2" operator="in" result="softGlow_fornoise" />
+
+            <!-- Add some noise to the glow -->
+    <feTurbulence type="fractalNoise" baseFrequency="20000" numOctaves="4" result="noise" />
+
+    <!-- Adjust the alpha values of the noise -->
+    <feComponentTransfer in="noise" result="noiseAlphaAdjusted">
+      <feFuncA type="table" tableValues="1 0" />
+    </feComponentTransfer>
+
+    <!-- Combine the noise with the original glow -->
+    <feComposite in="softGlow_fornoise" in2="noiseAlphaAdjusted" operator="in" result="ditheredGlow" />
+    <feComposite in="softGlow_colored" in2="ditheredGlow" operator="lighter" result="ditheredGlow2" />
+
+            <!--	Layer the effects together -->
+            <feMerge>
+              <feMergeNode in="ditheredGlow2"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        
+          </filter>
+        
+        </defs>
+
+        <path d="m957.66,11.83v38.53h-12.93v64.41h-13v51.46h-77.87v-38.52h12.89v-51.44h-12.88v12.76h-13v25.77h-13v25.77h-12.93v12.82h-13v12.84h-13v-25.58h-12.85v-64.38h-13.08v12.76h-13v38.64h-13v38.61h-25.98v-25.71h12.98v-25.75h12.99v-38.64h13v-38.64h12.89v-12.83c-8.67-.05-17.25.11-25.9-.06v-12.81h51.92v38.63h13v64.3h13v-12.88h12.93c.29-8.55-.56-17.52.31-25.77h12.7v-12.83h13v-25.75h12.93V11.83h90.86Zm-64.84,12.91v128.7c4.32-.22,8.89.44,12.98-.25v-51.39h12.98v-51.42h12.84v-25.64h-38.8Z" filter="url(#softGlow)"/>
+        <path d="m1152.37,11.83v12.85h-25.91v141.55h-38.94v-12.71h12.7c.35-1.79.48-70.18.16-77.25h-12.86v25.64h-13v25.77h-12.93v12.81h-13v25.73h-26.01v-51.33h-12.83v-38.63h-13.09v38.52h-13v25.77h-12.93v25.61h-25.97v-12.69h12.9v-25.71h12.85v-38.64h13.09v-38.64h12.95v-25.77h-25.88v-12.89h51.92v12.89h13v77.18h25.99v-12.88h13.09v-25.77h12.85v-12.83h13v-25.75h12.93c0-4.22,0-8.61,0-12.83h38.94Z" filter="url(#softGlow)"/>
+        <path d="m711.02,140.57h-12.79c-.52,4.1-.02,8.54-.19,12.82h-12.93v12.89h-38.95v12.87h-38.95v-12.79h-25.97v-12.89h-12.93v-12.59c-4.01-.82-8.69-.03-12.99-.3v-64.23c4.05-.4,8.57,0,12.91-.14v-25.75h13.03v-12.91h12.96v-12.85h12.95v-12.85h90.87v13.03h13.06v12.74h12.9v77.22h-12.98v25.75Zm-77.96-115.83v12.84h-25.9v25.76h-13v25.76h-12.86v38.63h12.94v25.64h64.91v-12.88h12.92c0-4.22,0-8.55,0-12.7h13v-25.89h12.91v-51.5h-12.98v-12.89h-13v-12.79h-38.95Z" filter="url(#softGlow)"/>
+        <polygon points="425.29 11.83 425.29 50.45 412.52 50.45 412.52 114.78 399.52 114.78 399.52 166.29 386.52 166.29 386.52 179.12 373.59 179.12 373.59 153.5 360.59 153.5 360.59 127.74 347.59 127.74 347.59 114.84 334.46 114.84 334.46 89.08 321.66 89.08 321.66 76.3 295.68 76.3 295.68 127.67 282.68 127.67 282.68 166.24 256.76 166.24 256.76 153.51 269.62 153.51 269.62 102 282.62 102 282.62 37.61 295.56 37.61 295.56 24.72 269.68 24.72 269.68 11.83 321.6 11.83 321.6 37.59 334.6 37.59 334.6 50.49 347.6 50.49 347.6 76.25 360.54 76.25 360.54 88.96 373.54 88.96 373.54 114.74 386.54 114.74 386.54 89.03 399.42 89.03 399.42 24.66 386.5 24.66 386.5 11.83 425.29 11.83" filter="url(#softGlow)"/>
+        <path id= "A" d="m204.77,11.83v12.83h12.93v51.5h13v51.52h12.97v38.57h-25.86v-25.63h-13v-51.49h-12.94v12.85h-13v12.79h-13v12.9h-13v12.83h-12.85v12.89h-13.08v12.88h-12.94v-51.43h12.9v-25.76h12.98v-12.87h12.99v-12.89h13v-12.89h25.88v-12.89h-12.98v-12.92h-25.9v-12.78h51.92Zm-25.96,64.31h12.89v-12.77h-12.89v12.89h-12.89v12.77h12.89v-12.89Z" transform="translate(10, 0)" filter="url(#softGlow)" />
+        <path d="m1269.19,50.46h-25.78c-.53-8.39,0-17.12-.19-25.68h-38.89v38.51h-12.95v12.87h25.86v-12.79h38.89v25.64h-64.77v25.76h-12.99v38.59h38.85v-12.76h13v-12.82h25.91v12.74h-12.87v25.75h-90.82v-64.27h12.85v-51.51h12.93v-25.77h-12.9v-12.88h90.87v12.87h12.98v25.75Z" filter="url(#softGlow)"/>
+        <path d="m126.89,89.08h-12.89v12.81H49.14v63.64H10.81v-12.08h12.21v-51.47h12.99V37.61h12.93v-12.89h-12.9v-12.88h103.85v64.37h-12.98v12.87Zm-38.95-.04v-12.43h13.01v-13.31h12.87v-25.77h-12.89v-12.63h-12.99v12.7h-13v12.89h-12.88v38.54h25.89Z" filter="url(#softGlow)"/>
+        <path d="m568.23,50.44h-13.04v-12.81h-12.88v-12.87h-25.98v64.3h-12.93v51.52h-12.99v25.64h-25.97v-25.62h12.9v-64.38h12.97V24.78h-25.86v12.63h-13v12.99h-12.94v-25.69h12.9v-12.88h116.83v38.61Z" filter="url(#softGlow)"/>
+        
+      
+      </svg>
+   
+    
+
+</div>
+
+
+
 
 
     <div id="threejs-canvas"></div>
