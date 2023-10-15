@@ -2,15 +2,18 @@ body, html {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: rgb(5, 5, 5);
+    background-color: rgb(255, 255, 255);
 }
 
+#project-links{
+    z-index: 10;
+}
 
 
 #textLayer {
     position: absolute;
-    top: 10%;
-    left: 17.5%;
+    top: 8.5%;
+    left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
     color: black;
@@ -20,48 +23,105 @@ body, html {
 
 #About {
     position: absolute;
-    top: 9em;
-    left: 2.5em;
+    bottom: 5%;
+    height: 1em;
+    left: 32%;
+    width:35%;
+    transform: translateY(-50%);
     z-index: 10;
     color: black;
-    font-size: 32px;
-    font-weight: bold;  
+    font-size: 22px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    animation: fade-in 2s ease-in;
 }
 
 #info{
-    font-size: 22px;
+    font-size: 18px;
     font-weight: normal; 
 }
 
 #threejs-canvas{
     position: fixed;
-    height: 50%;
-    width: 35%;
-    left:45em;
-    top:10em;
+    height: 100%;
+    width: 100%;
+    left:0em;
+    top:0em;
     z-index: 9;
     animation: fade-in 2s ease-in;
 }
 #pantomime-logo{
-    width: 700px;
-    height: 700px;
+    width: 20em;
+    height: 20em;
     overflow:visible;
     filter: drop-shadow(0px 0px 15px white) drop-shadow(0px 0px 10px white) drop-shadow(0px 0px 5px white)  drop-shadow(0px 0px 20px rgb(215, 219, 255));
 }
 #pantomime-logo:hover{
     filter: drop-shadow(0px 0px 17px white) drop-shadow(0px 0px 12px white) drop-shadow(0px 0px 7px white)  drop-shadow(0px 0px 22px rgb(215, 219, 255));
 }
+#project-links{
+position: absolute;
+right: 30%;
+width: 40%;
+height: auto;
+top: 50%;
+transform: translateY(-50%);
+z-index:12;
+display: flex;
+justify-content: center;
+align-items: center; 
+animation: fade-in 1s ease-in;
+}
 
+#project-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 2vw;
+    width: 90%;
+    height: 90%;
+    justify-content: center;
+}
+
+#password-input{
+    position: sticky;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    z-index: 11;
+}
 /* Mobile Styles */
 @media only screen and (max-width: 1024px) {
 
+    #project-links{
+      left:0;
+      top:29em;
+      width:auto;
+      padding: 2.5em;
+      margin-right: 0;
+      right: 0;
+    }
+
+    #project-grid{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        grid-gap: 2vw;
+        width: 90%;
+        height: 90%;
+        justify-content: center;
+    }
+
     #pantomime-logo{
-        width: 21.5em;
+        width: 17.5em;
         height: auto;
     }
     #textLayer {
         left: 50%;
-        top: 6.5%;
+        top: 7.5%;
         
     }
     
@@ -74,18 +134,30 @@ body, html {
 
 
 #About { 
-    //opacity:0;
-    top: 8.5em;
-    margin-left: 0em;
-    margin-right: 1em;
+    top: 42.5em;
+    bottom:3%;
+    width:auto;
+    height:auto;
+    left:0;
+    right:0;
     
+    margin-left: 3em;
+    margin-right: 3em;
+    font-size: 20px;
 }
 
 #info{
     
 }
 
+#password-input{
+   
+    height: 170vh;
+
 }
+
+}
+
 
 
 @keyframes fade-in {

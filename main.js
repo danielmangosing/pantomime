@@ -13,6 +13,7 @@ import { MeshToonMaterial } from 'three';
 
 
 let modelXPos;
+let modelYPos;
 let modelZPos;
 
 function isMobile() {
@@ -22,13 +23,19 @@ function isMobile() {
 if (isMobile()) {
     // Code to run on mobile devices
     console.log("Running on a mobile device");
-    modelXPos = 0.05;
-    modelZPos = 0.0;
+    modelXPos = 0.0;
+    modelYPos = -0.5;
+    modelZPos = 10.0;
 } else {
     // Code to run on desktop or other devices
     console.log("Running on a desktop or other device");
-    modelXPos = 0;
-    modelZPos = 0.0;
+    modelXPos = 0.0;
+    modelYPos = -0.75;
+    modelZPos = 10.0;
+}
+if (window.location.pathname.endsWith('home.html')) {
+    modelZPos = 50.0;
+    modelYPos=-1.0;
 }
 
 const threejsCanvas = document.querySelector('#threejs-canvas');
@@ -42,7 +49,7 @@ let composer;
 
 // Basic Three.js setup
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(38, width / height, 1, 1000);
+const camera = new THREE.PerspectiveCamera(5, width / height, 1, 1000);
 let toonMode = false;
 
 scene.background = new THREE.Color('white' );
@@ -228,9 +235,9 @@ const outputPass = new OutputPass();
 
 	composer = new EffectComposer( renderer );
 	composer.addPass( renderScene );
-    composer.addPass( renderPixelatedPass );
+    //composer.addPass( renderPixelatedPass );
     //composer.addPass( bloomPass );
-    composer.addPass(afterImagePass);
+    //composer.addPass(afterImagePass);
     
     composer.addPass( ditherPass );
     //composer.addPass(bokehPass);
@@ -270,8 +277,8 @@ const loader = new GLTFLoader();
 loader.load('./Jester3.gltf', (gltf) => {
     
     model = gltf.scene;
-    model.position.set(modelXPos,-0.6,modelZPos);
-    model.rotation.z = 0.05;
+    model.position.set(modelXPos,modelYPos,modelZPos);
+    //model.rotation.z = 0.05;
     scene.add(model);
 
     model.traverse((node) =>{
@@ -315,12 +322,13 @@ new RGBELoader().load('./studio_small_09_1k.hdr', function (texture){
 });
 
 // Camera position
-camera.position.z = 3;
+//camera.position.z = 3;
+camera.position.z = 60;
 camera.lookAt(0,0,0);
 
 function renderOnce(){
     if (model){
-        model.rotation.y += 0.005;
+        model.rotation.y += 0.01;
             }
 
  composer.render();
