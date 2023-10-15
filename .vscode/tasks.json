@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "copyDistToDocs",
+            "type": "shell",
+            "command": "xcopy dist\\* docs\\ /E /I /Y",
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always"
+            }
+        }
+    ]
+}
